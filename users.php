@@ -87,7 +87,20 @@ include 'includes/connect.php';
 
   <!-- //////////////////////////////////////////////////////////////////////////// -->
 
-  
+  <!-- START HEADER -->
+  <header id="header" class="page-topbar">
+        <!-- start header nav-->
+        <div class="navbar-fixed">
+            <nav class="navbar-color">
+                <div class="nav-wrapper">
+                    <ul class="left">                      
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- end header nav-->
+  </header>
+  <!-- END HEADER -->
 
   <!-- //////////////////////////////////////////////////////////////////////////// -->
 
@@ -106,7 +119,8 @@ include 'includes/connect.php';
                 </div>
 				 <div class="col col s8 m8 l8">
                     <ul id="profile-dropdown" class="dropdown-content">
-                      
+                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col col s8 m8 l8">
@@ -115,7 +129,15 @@ include 'includes/connect.php';
                 </div>
             </div>
             </li>
-          
+            <li class="bold"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i>Services</a>
+            </li>
+                <li class="no-padding">
+                    <ul class="collapsible collapsible-accordion">
+                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-editor-insert-invitation"></i>Delivery</a>
+                            <div class="collapsible-body">
+                                <ul>
+								<li><a href="all-orders.php">Manage Deliveries</a>
+                                </li>
 								<?php
 									$sql = mysqli_query($con, "SELECT DISTINCT status FROM orders;");
 									while($row = mysqli_fetch_array($sql)){
@@ -128,29 +150,9 @@ include 'includes/connect.php';
                         </li>
                     </ul>
                 </li>
-                 <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-question-answer"></i> Tickets</a>
-                            <div class="collapsible-body">
-                                <ul>
-								<li><a href="all-tickets.php">All Tickets</a>
-                                </li>
-								<?php
-									$sql = mysqli_query($con, "SELECT DISTINCT status FROM tickets;");
-									while($row = mysqli_fetch_array($sql)){
-                                    echo '<li><a href="all-tickets.php?status='.$row['status'].'">'.$row['status'].'</a>
-                                    </li>';
-									}
-									?>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>			 -->
-            <li class="bold active"><a href="users.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Users</a>
+                
+            <li class="bold active"><a href="users.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i>Users</a>
             </li>			
-              <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
-                        </li>
         </ul>
         <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
         </aside>
@@ -166,7 +168,7 @@ include 'includes/connect.php';
           <div class="container">
             <div class="row">
               <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">User List</h5>
+                <h5 class="breadcrumbs-title">Users List</h5>
               </div>
             </div>
           </div>
@@ -176,14 +178,14 @@ include 'includes/connect.php';
 
         <!--start container-->
         <div class="container">
-          <p class="caption">Enable, Disable or Verify Users.</p>
+          <p class="caption">Enable, Disable or Verify</p>
           <div class="divider"></div>
           <!--editableTable-->
           <div id="editableTable" class="section">
 		  <form class="formValidate" id="formValidate1" method="post" action="routers/user-router.php" novalidate="novalidate">
             <div class="row">
               <div class="col s12 m4 l3">
-                <h4 class="header">List of users</h4>
+                <h4 class="header">List of Users</h4>
               </div>
               <div>
 <table>
@@ -194,9 +196,6 @@ include 'includes/connect.php';
                         <th data-field="price">Contact</th>
                         <th data-field="price">Address</th>	
                         <th data-field="price">Role</th>
-                        <th data-field="price">Verified</th>
-                        <th data-field="price">Enable</th>
-                        			
                       </tr>
                     </thead>
 
@@ -213,24 +212,24 @@ include 'includes/connect.php';
                       <option value="Administrator"'.($row['role']=='Administrator' ? 'selected' : '').'>Administrator</option>
                       <option value="Customer"'.($row['role']=='Customer' ? 'selected' : '').'>Customer</option>
                     </select></td>';
-					echo '<td><select name="'.$row['id'].'_verified">
-                      <option value="1"'.($row['verified'] ? 'selected' : '').'>Verified</option>
-                      <option value="0"'.(!$row['verified'] ? 'selected' : '').'>Not Verified</option>
-                    </select></td>';	
-					echo '<td><select name="'.$row['id'].'_deleted">
-                      <option value="1"'.($row['deleted'] ? 'selected' : '').'>Disable</option>
-                      <option value="0"'.(!$row['deleted'] ? 'selected' : '').'>Enable</option>
-                    </select></td>';
-					$key = $row['id'];
-					$sql = mysqli_query($con,"SELECT * from wallet WHERE customer_id = $key;");
-					if($row1 = mysqli_fetch_array($sql)){
-						$wallet_id = $row1['id'];
-						$sql1 = mysqli_query($con,"SELECT * from wallet_details WHERE wallet_id = $wallet_id;");
-						if($row2 = mysqli_fetch_array($sql1)){
-							$balance = $row2['balance'];
-						}
-					}
-					echo '<td><label for="balance">Balance</label><input id="balance" name="'.$row['id'].'_balance" value="'.$balance.'" type="number" data-error=".errorTxt01"><div class="errorTxt01"></div></td></tr>'; 					
+					// echo '<td><select name="'.$row['id'].'_verified">
+     //                  <option value="1"'.($row['verified'] ? 'selected' : '').'>Verified</option>
+     //                  <option value="0"'.(!$row['verified'] ? 'selected' : '').'>Not Verified</option>
+     //                </select></td>';	
+					// echo '<td><select name="'.$row['id'].'_deleted">
+     //                  <option value="1"'.($row['deleted'] ? 'selected' : '').'>Disable</option>
+     //                  <option value="0"'.(!$row['deleted'] ? 'selected' : '').'>Enable</option>
+     //                </select></td>';
+					// $key = $row['id'];
+					// $sql = mysqli_query($con,"SELECT * from wallet WHERE customer_id = $key;");
+					// if($row1 = mysqli_fetch_array($sql)){
+					// 	$wallet_id = $row1['id'];
+					// 	$sql1 = mysqli_query($con,"SELECT * from wallet_details WHERE wallet_id = $wallet_id;");
+					// 	if($row2 = mysqli_fetch_array($sql1)){
+					// 		$balance = $row2['balance'];
+					// 	}
+					// }
+					// echo '<td><label for="balance">Balance</label><input id="balance" name="'.$row['id'].'_balance" value="'.$balance.'" type="number" data-error=".errorTxt01"><div class="errorTxt01"></div></td></tr>'; 					
 				}
 				?>
                     </tbody>
@@ -258,9 +257,6 @@ include 'includes/connect.php';
                         <th data-field="price">Email</th>
                         <th data-field="price">Phone number</th>
                         <th data-field="price">Address</th>	
-                        <th data-field="price">Role</th>
-                        <th data-field="price">Verified</th>
-                        <th data-field="price">Enable</th>		
                       </tr>
                     </thead>
 
@@ -276,14 +272,6 @@ include 'includes/connect.php';
                       <option value="Administrator">Administrator</option>
                       <option value="Customer" selected>Customer</option>
                     </select></td>';
-					echo '<td><select name="verified">
-                      <option value="1">Verified</option>
-                      <option value="0" selected>Not Verified</option>
-                    </select></td>';	
-					echo '<td><select name="deleted">
-                      <option value="1">Disable</option>
-                      <option value="0" selected>Enable</option>
-                    </select></td></tr>';					
 				?>
                     </tbody>
 </table>
@@ -314,7 +302,16 @@ include 'includes/connect.php';
 
   <!-- //////////////////////////////////////////////////////////////////////////// -->
 
-  
+  <!-- START FOOTER -->
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+        <span><a class="grey-text text-lighten-4" href="#" target="_blank"></a></span>
+        <span class="right"> <a class="grey-text text-lighten-4" href="#"></a></span>
+        </div>
+    </div>
+  </footer>
+    <!-- END FOOTER -->
 
 
 
