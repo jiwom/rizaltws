@@ -13,7 +13,7 @@ include 'includes/connect.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="msapplication-tap-highlight" content="no">
-  <title>Rizal Two Wheels Services</title>
+  <title>ADMIN</title>
 
   <!-- Favicons-->
   <link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">
@@ -81,11 +81,11 @@ include 'includes/connect.php';
 
 <body>
   <!-- Start Page Loading -->
-  <div id="loader-wrapper">
+  <!-- <div id="loader-wrapper">
       <div id="loader"></div>        
       <div class="loader-section section-left"></div>
       <div class="loader-section section-right"></div>
-  </div>
+  </div> -->
   <!-- End Page Loading -->
 
   <!-- //////////////////////////////////////////////////////////////////////////// -->
@@ -97,6 +97,7 @@ include 'includes/connect.php';
             <nav class="navbar-color">
                 <div class="nav-wrapper">
                     <ul class="left">                      
+                      <li><h1 class="logo-wrapper"><a href="index.php" class="brand-logo darken-1"><alt="Sure20x"></a> <span class="logo-text">Sure20x</span></h1></li>
                     </ul>
                 </div>
             </nav>
@@ -120,14 +121,27 @@ include 'includes/connect.php';
                 <div class="col col s4 m4 l4">
                     <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
                 </div>
-			
+				 <div class="col col s8 m8 l8">
+                    <ul id="profile-dropdown" class="dropdown-content">
+                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="col col s8 m8 l8">
                     <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown"><?php echo $name;?> <i class="mdi-navigation-arrow-drop-down right"></i></a>
                     <p class="user-roal"><?php echo $role;?></p>
                 </div>
             </div>
             </li>
-          
+            <li class="bold active"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i>Services</a>
+            </li>
+                <li class="no-padding">
+                    <ul class="collapsible collapsible-accordion">
+                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-editor-insert-invitation"></i>Delivery</a>
+                            <div class="collapsible-body">
+                                <ul>
+								<li><a href="all-orders.php">Manage Deliveries</a>
+                                </li>
 								<?php
 									$sql = mysqli_query($con, "SELECT DISTINCT status FROM orders;");
 									while($row = mysqli_fetch_array($sql)){
@@ -142,7 +156,7 @@ include 'includes/connect.php';
                 </li>
                  <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-question-answer"></i> Tickets</a>
+                        <!-- <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-question-answer"></i> Tickets</a> -->
                             <div class="collapsible-body">
                                 <ul>
 								<li><a href="all-tickets.php">All Tickets</a>
@@ -158,11 +172,9 @@ include 'includes/connect.php';
                             </div>
                         </li>
                     </ul>
-                </li>			 -->
-            <li class="bold"><a href="users.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Users</a>
+                </li>			
+            <li class="bold"><a href="users.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i>Users</a>
             </li>				
-              <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
-                        </li>
         </ul>
         <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
         </aside>
@@ -170,107 +182,7 @@ include 'includes/connect.php';
 
       <!-- //////////////////////////////////////////////////////////////////////////// -->
 
-      <!-- START CONTENT -->
-     <!--  <section id="content">
-
-        breadcrumbs start-->
-     
-				<?php
-				$result = mysqli_query($con, "SELECT * FROM items");
-				while($row = mysqli_fetch_array($result))
-				{
-					echo '<tr><td><div class="input-field col s12"><label for="'.$row["id"].'_name">Name</label>';
-					echo '<input value="'.$row["name"].'" id="'.$row["id"].'_name" name="'.$row['id'].'_name" type="text" data-error=".errorTxt'.$row["id"].'"><div class="errorTxt'.$row["id"].'"></div></td>';					
-					echo '<td><div class="input-field col s12 "><label for="'.$row["id"].'_price">Price</label>';
-					echo '<input value="'.$row["price"].'" id="'.$row["id"].'_price" name="'.$row['id'].'_price" type="text" data-error=".errorTxt'.$row["id"].'"><div class="errorTxt'.$row["id"].'"></div></td>';                   
-					echo '<td>';
-					if($row['deleted'] == 0){
-						$text1 = 'selected';
-						$text2 = '';
-					}
-					else{
-						$text1 = '';
-						$text2 = 'selected';						
-					}
-					echo '<select name="'.$row['id'].'_hide">
-                      <option value="1"'.$text1.'>Available</option>
-                      <option value="2"'.$text2.'>Not Available</option>
-                    </select></td></tr>';
-				}
-				?>
-                    </tbody>
-</table>
-              </div>
-			  <div class="input-field col s12">
-                              <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Modify
-                                <i class="mdi-content-send right"></i>
-                              </button>
-                            </div>
-            </div>
-			</form>
-		  <form class="formValidate" id="formValidate1" method="post" action="routers/add-item.php" novalidate="novalidate">
-            <div class="row">
-              <div class="col s12 m4 l3">
-                <h4 class="header">Add Item</h4>
-              </div>
-              <div>
-<table>
-                    <thead>
-                      <tr>
-                        <th data-field="id">Name</th>
-                        <th data-field="name">Item Price/Piece</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-
-
-
-				<?php
-					echo '<tr><td><div class="input-field col s12"><label for="name">Name</label>';
-					echo '<input id="name" name="name" type="text" data-error=".errorTxt01"><div class="errorTxt01"></div></td>';					
-					echo '<td><div class="input-field col s12 "><label for="price" class="">Price</label>';
-					echo '<input id="price" name="price" type="text" data-error=".errorTxt02"><div class="errorTxt02"></div></td>';                   
-					echo '<td></tr>';
-				?>
-                    </tbody>
-</table>
-              </div>
-			  <div class="input-field col s12">
-                              <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Add
-                                <i class="mdi-content-send right"></i>
-                              </button>
-                            </div>
-            </div>
-			</form>			
-            <div class="divider"></div>
-            
-          </div>
-        </div>
-        </div> -->
-        <!--end container-->
-
-      </section>
-      <!-- END CONTENT -->
-    </div>
-    <!-- END WRAPPER -->
-
-
-<?php
-include 'users.php';
-?>
-
-  <!-- //////////////////////////////////////////////////////////////////////////// -->
-
-  <!-- START FOOTER -->
-  <footer class="page-footer">
-    <div class="footer-copyright">
-      <div class="container">
-        <span>Copyright © 2020 <a class="grey-text text-lighten-4" href="#" target="_blank">YCMS</a> All rights reserved.</span>
-        </div>
-    </div>
-  </footer>
-    <!-- END FOOTER -->
+    
 
 
 
