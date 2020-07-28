@@ -199,6 +199,7 @@ include 'includes/connect.php';
                                 <ul>
 								<li><a href="orders.php">All Orders</a>
                                 </li>
+
 								<?php
 									$sql = mysqli_query($con, "SELECT DISTINCT status FROM orders WHERE customer_id = $user_id;");
 									while($row = mysqli_fetch_array($sql)){
@@ -211,22 +212,17 @@ include 'includes/connect.php';
                         </li>
                     </ul>
                 </li>
+                  <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                        </li>     
 
-               
-								<?php
-									$sql = mysqli_query($con, "SELECT DISTINCT status FROM tickets WHERE poster_id = $user_id AND not deleted;");
-									while($row = mysqli_fetch_array($sql)){
-                                    echo '<li><a href="tickets.php?status='.$row['status'].'">'.$row['status'].'</a>
-                                    </li>';
-									}
-									?>
+
+            
                                 </ul>
                             </div>
                         </li>
                     </ul>
          
-            <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
-                        </li>			
+          
         </ul>
         <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
         </aside>
@@ -289,19 +285,9 @@ include'details.php';
               <div class="col s12 m4 l3">
                 <h4 class="header"></h4>
               </div>
-             
-				<?php
-				$result = mysqli_query($con, "SELECT * FROM items where not deleted;");
-				while($row = mysqli_fetch_array($result))
-				{
-					echo '<tr><td>'.$row["name"].'</td><td>'.$row["price"].'</td>';                      
-					echo '<td><div class="input-field col s12"><label for='.$row["id"].' class="">Quantity</label>';
-					echo '<input id="'.$row["id"].'" name="'.$row['id'].'" type="text" data-error=".errorTxt'.$row["id"].'"><div class="errorTxt'.$row["id"].'"></div></td></tr>';
-				}
-				?>
-                    </tbody>
+           </tbody>
 </table>
-              </div> -->
+              </div> 
 			 
             <div class="divider"></div>
             
